@@ -148,6 +148,16 @@ export default function StudentLogin() {
                     name="password"
                 />
 
+                <View className="items-end">
+                    <TouchableOpacity
+                        className="mt-2"
+                        activeOpacity={0.7}
+                        onPress={() => router.push('/(public)/forgot-password')}
+                    >
+                        <Text className="text-white">Esqueci a senha</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <View className="gap-4 mt-8">
                     <TouchableOpacity
                         className="w-full py-4 border border-white justify-center items-center rounded-md bg-white/20"
