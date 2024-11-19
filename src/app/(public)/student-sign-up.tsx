@@ -21,6 +21,7 @@ interface SignUpForm {
     email: string
     telefone: string
     genero: string
+    endereco: string
     data_nascimento: string
     password: string
     confirmPassword: string
@@ -28,6 +29,8 @@ interface SignUpForm {
 
 export default function StudentSignUp() {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+        useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
     const {
@@ -43,6 +46,7 @@ export default function StudentSignUp() {
             email: '',
             telefone: '',
             genero: '',
+            endereco: '',
             data_nascimento: '',
             password: '',
             confirmPassword: '',
@@ -62,7 +66,7 @@ export default function StudentSignUp() {
 
             await addDoc(clientCollection, {
                 email: data.email,
-                endereco: '',
+                endereco: data.endereco,
                 genero: data.genero,
                 nome: data.name,
                 senha: data.password,
@@ -72,7 +76,6 @@ export default function StudentSignUp() {
             Alert.alert('Sucesso', 'Conta criada com sucesso!', [
                 {
                     text: 'OK',
-                    onPress: () => router.back(),
                 },
             ])
         } catch (error) {
@@ -236,6 +239,35 @@ export default function StudentSignUp() {
                             <View className="gap-2 mt-4">
                                 <TextInput
                                     className="px-4 py-4 bg-white rounded-md"
+                                    placeholder="Endereço"
+                                    selectionColor={colors.primary}
+                                    autoCapitalize="none"
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
+                                    enterKeyHint="next"
+                                />
+                                {errors.endereco && (
+                                    <Text className="text-white font-bold text-sm">
+                                        {errors.endereco?.message === ''
+                                            ? 'Insira um endereço'
+                                            : errors.endereco?.message}
+                                    </Text>
+                                )}
+                            </View>
+                        )}
+                        name="endereco"
+                    />
+
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <View className="gap-2 mt-4">
+                                <TextInput
+                                    className="px-4 py-4 bg-white rounded-md"
                                     placeholder="Data de nascimento"
                                     selectionColor={colors.primary}
                                     autoCapitalize="none"
@@ -265,7 +297,7 @@ export default function StudentSignUp() {
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <View className="gap-2 mt-4">
-                                <View className="items-center flex-row pb-2">
+                                <View className="items-center flex-row relative bg-white rounded-md">
                                     <TextInput
                                         enterKeyHint="send"
                                         secureTextEntry={!isPasswordVisible}
@@ -274,7 +306,7 @@ export default function StudentSignUp() {
                                         onChangeText={onChange}
                                         selectionColor={colors.primary}
                                         value={value}
-                                        className="px-4 py-4 bg-white rounded-md flex-1"
+                                        className="flex-1 px-4 py-4"
                                         placeholder="Senha"
                                     />
 
@@ -285,12 +317,7 @@ export default function StudentSignUp() {
                                                 !isPasswordVisible
                                             )
                                         }
-                                        style={{
-                                            position: 'absolute',
-                                            right: 8,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                        }}
+                                        className="mr-4"
                                     >
                                         <Feather
                                             name={
@@ -326,36 +353,33 @@ export default function StudentSignUp() {
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <View className="gap-2 mt-4">
-                                <View className="items-center flex-row pb-2">
+                                <View className="items-center flex-row relative bg-white rounded-md">
                                     <TextInput
                                         enterKeyHint="send"
-                                        secureTextEntry={!isPasswordVisible}
+                                        secureTextEntry={
+                                            !isConfirmPasswordVisible
+                                        }
                                         autoCapitalize="none"
                                         onBlur={onBlur}
                                         onChangeText={onChange}
                                         selectionColor={colors.primary}
                                         value={value}
-                                        className="px-4 py-4 bg-white rounded-md flex-1"
+                                        className="flex-1 px-4 py-4"
                                         placeholder="Confirme a senha"
                                     />
 
                                     <TouchableOpacity
                                         activeOpacity={0.7}
                                         onPress={() =>
-                                            setIsPasswordVisible(
-                                                !isPasswordVisible
+                                            setIsConfirmPasswordVisible(
+                                                !isConfirmPasswordVisible
                                             )
                                         }
-                                        style={{
-                                            position: 'absolute',
-                                            right: 8,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                        }}
+                                        className="mr-4"
                                     >
                                         <Feather
                                             name={
-                                                isPasswordVisible
+                                                isConfirmPasswordVisible
                                                     ? 'eye'
                                                     : 'eye-off'
                                             }

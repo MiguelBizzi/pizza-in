@@ -38,7 +38,7 @@ export default function StudentLogin() {
         } catch (error) {
             setError('password', {
                 type: 'manual',
-                message: 'Login ou senha inválidos',
+                message: 'Email ou senha inválidos',
             })
         } finally {
             setIsLoading(false)
@@ -77,7 +77,7 @@ export default function StudentLogin() {
                         <View className="gap-4">
                             <TextInput
                                 className="px-4 py-4 bg-white rounded-md"
-                                placeholder="Login"
+                                placeholder="Email"
                                 selectionColor={colors.primary}
                                 autoCapitalize="none"
                                 keyboardType="email-address"
@@ -104,7 +104,7 @@ export default function StudentLogin() {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <View className="gap-4 mt-4">
-                            <View className="items-center flex-row pb-2">
+                            <View className="items-center flex-row relative bg-white rounded-md">
                                 <TextInput
                                     enterKeyHint="send"
                                     secureTextEntry={!isPasswordVisible}
@@ -113,7 +113,7 @@ export default function StudentLogin() {
                                     onChangeText={onChange}
                                     selectionColor={colors.primary}
                                     value={value}
-                                    className="px-4 py-4 bg-white rounded-md flex-1"
+                                    className="flex-1 px-4 py-4"
                                     placeholder="Senha"
                                 />
 
@@ -122,12 +122,7 @@ export default function StudentLogin() {
                                     onPress={() =>
                                         setIsPasswordVisible(!isPasswordVisible)
                                     }
-                                    style={{
-                                        position: 'absolute',
-                                        right: 8,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}
+                                    className="mr-4"
                                 >
                                     <Feather
                                         name={
