@@ -8,10 +8,10 @@ import {
 import { auth } from '@/server/firebaseConfig'
 import { signInWithEmailAndPassword } from '@firebase/auth'
 import { Controller, useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { colors } from '@/styles/colors'
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 
 export default function StudentLogin() {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -21,6 +21,7 @@ export default function StudentLogin() {
         control,
         handleSubmit,
         setError,
+        reset,
         formState: { errors },
     } = useForm({
         defaultValues: {
@@ -31,17 +32,25 @@ export default function StudentLogin() {
 
     async function onSubmit(data: { login: string; password: string }) {
         try {
-            const user = await signInWithEmailAndPassword(
-                auth,
-                'migueloliveirabizzi@gmail.com',
-                '123456'
-            )
+            setIsLoading(true)
 
-            console.log(user)
+            await signInWithEmailAndPassword(auth, data.login, data.password)
         } catch (error) {
-            console.log(error)
+            setError('password', {
+                type: 'manual',
+                message: 'Login ou senha inválidos',
+            })
+        } finally {
+            setIsLoading(false)
         }
     }
+
+    useFocusEffect(
+        useCallback(() => {
+            reset(undefined)
+            return () => {}
+        }, [])
+    )
 
     return (
         <View className="flex-1 bg-primary">
@@ -78,7 +87,7 @@ export default function StudentLogin() {
                                 enterKeyHint="next"
                             />
                             {errors.login && (
-                                <Text className="text-red-600 font-bold text-xs">
+                                <Text className="text-white font-bold text-sm">
                                     {errors.login?.message === ''
                                         ? 'Insira um login'
                                         : errors.login?.message}
@@ -133,7 +142,7 @@ export default function StudentLogin() {
                             </View>
 
                             {errors.password && (
-                                <Text className="text-red-600 font-bold text-xs">
+                                <Text className="text-white font-bold text-sm">
                                     {errors.password?.message === ''
                                         ? 'Insira uma senha'
                                         : errors.password?.message}
@@ -147,10 +156,15 @@ export default function StudentLogin() {
                 <View className="gap-4 mt-8">
                     <TouchableOpacity
                         className="w-full py-4 border border-white justify-center items-center rounded-md bg-white/20"
-                        onPress={() => {}}
+                        onPress={handleSubmit(onSubmit)}
+                        disabled={isLoading}
                         activeOpacity={0.7}
                     >
-                        <Text className="text-white">Login</Text>
+                        {isLoading ? (
+                            <Text className="text-white">Carregando...</Text>
+                        ) : (
+                            <Text className="text-white">Login</Text>
+                        )}
                     </TouchableOpacity>
 
                     <TouchableOpacity
