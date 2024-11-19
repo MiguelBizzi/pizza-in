@@ -110,7 +110,9 @@ export default function Home() {
 
                     <View className="flex-row gap-6 mt-6">
                         <TouchableOpacity
-                            onPress={() => {}}
+                            onPress={() =>
+                                router.push('/(auth)/home/my-events')
+                            }
                             activeOpacity={0.8}
                             className="flex-1 flex-row items-center justify-between px-4 border border-gray-200 rounded-lg h-16"
                         >
