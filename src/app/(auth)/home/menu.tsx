@@ -88,7 +88,7 @@ export default function Menu() {
                         }}
                     >
                         {categoryIcons[category as Category]}
-                        <Text className="ml-2 mt-1 text-sm">
+                        <Text className="mt-1 text-sm">
                             {category.charAt(0).toUpperCase() +
                                 category.slice(1)}
                         </Text>
