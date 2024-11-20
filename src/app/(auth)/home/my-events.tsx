@@ -2,7 +2,7 @@ import { db } from '@/server/firebaseConfig'
 import { colors } from '@/styles/colors'
 import { EventType } from '@/types/event'
 import { Entypo, Feather } from '@expo/vector-icons'
-import { Stack, useFocusEffect, useNavigation } from 'expo-router'
+import { router, Stack, useFocusEffect } from 'expo-router'
 import { collection, getDocs } from 'firebase/firestore'
 import { useCallback, useState } from 'react'
 import { Pressable, Text, TouchableOpacity, View } from 'react-native'
@@ -10,8 +10,6 @@ import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 export default function Events() {
     const [events, setEvents] = useState<EventType[]>([])
     const [isLoading, setIsLoading] = useState(false)
-
-    const navigation = useNavigation()
 
     const eventCollection = collection(db, 'evento')
 
@@ -47,7 +45,7 @@ export default function Events() {
                     headerLeft: () => (
                         <Pressable
                             className="flex-row items-center -ml-4"
-                            onPress={() => navigation.goBack()}
+                            onPress={() => router.replace('/(auth)')}
                         >
                             <Entypo
                                 name="chevron-small-left"

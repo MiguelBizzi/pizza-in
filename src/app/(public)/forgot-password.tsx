@@ -77,6 +77,7 @@ export default function ForgotPassword() {
                                 className="px-4 py-4 bg-white rounded-md"
                                 placeholder="Email"
                                 selectionColor={colors.primary}
+                                placeholderTextColor={colors.gray400}
                                 autoCapitalize="none"
                                 keyboardType="email-address"
                                 onBlur={onBlur}
